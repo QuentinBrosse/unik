@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  envoy:
+    build:
+      context: ../../../
+      dockerfile: ./infra/docker/envoy/Dockerfile
+    ports:
+      - "8010:8010"
+      - "8011:8011"
+    networks:
+      - server-net
+  server:
+    build:
+      context: ../../../
+      dockerfile: ./infra/docker/server/Dockerfile
+    command: server
+    ports:
+      - "8020:8020"
+    networks:
+      - server-net
+    environment:
+      - APP_ENV=development
+    volumes:
+      - ../../../pkg:/go/src/github.com/quentinbrosse/unik/pkg
+      - ../../../vendor:/go/src/github.com/quentinbrosse/unik/vendor
+
+networks:
+  server-net:
