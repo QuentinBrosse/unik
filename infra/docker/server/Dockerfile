@@ -13,8 +13,7 @@ COPY ./infra/docker/server/entrypoint.sh .
 ARG app_env
 ENV APP_ENV $app_env
 
-COPY ./scripts/build.sh ./scripts/configure.sh ./scripts/
-
+COPY ./scripts/utils.sh ./scripts/build.sh ./scripts/configure.sh ./scripts/
 
 # Install dep vendors
 COPY ./Gopkg.lock ./Gopkg.toml ./

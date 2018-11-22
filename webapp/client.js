@@ -3,7 +3,6 @@ const { ApiPromiseClient } = require('./protobufs/api_grpc_web_pb.js');
 
 const client = new ApiPromiseClient('http://localhost:8010', null, null);
 
-// simple unary call
 const request = new HelloRequest();
 request.setName('toi');
 

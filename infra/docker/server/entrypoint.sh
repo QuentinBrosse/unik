@@ -3,9 +3,6 @@ set -e
 
 echo "Run in $APP_ENV env"
 
-echo $#
-
-
 if [ "$APP_ENV" = "production" ]; then
   server $@;
 fi

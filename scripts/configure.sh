@@ -7,56 +7,11 @@ WEBAPP_DIR="$ROOT_DIR/webapp"
 PB_DIR="$ROOT_DIR/protobufs"
 WEBAPP_PB_DIR="$WEBAPP_DIR/protobufs"
 
-##
-# Echo on stderr
-##
-function echoerr ()
-{
-  echo "$@" >&2
-}
+source ${SCRIPT_DIR}/utils.sh
 
 ##
-# Colorize output
+# Log message only if verbose mode is enabled
 ##
-function color() {
-  case $1 in
-    yellow) echoerr -e -n "\033[33m"   ;;
-    green)  echoerr -e -n "\033[32m"   ;;
-    red)    echoerr -e -n "\033[0;31m" ;;
-  esac
-  echoerr "$2"
-  echoerr -e -n "\033[0m"
-}
-
-##
-# Print Usage
-##
-function usage() {
-  color yellow "Usage:"
-  echoerr "  ${BASH_SOURCE[0]} [OPTIONS]"
-  echoerr ""
-
-  color yellow "Options:"
-
-  color green "  -a, --all"
-  echoerr -e "\tAll"
-
-  color green "  -d, --dep"
-  echoerr -e "\tInstall dep dependencies"
-
-  color green "  -p, --proto"
-  echoerr -e "\tCompile proto files"
-
-  color green "  -h, --help"
-  echoerr -e "\tDisplay this help"
-
-  color green "  -v, --verbose"
-  echoerr -e "\tEnable verbose mode"
-
-  echoerr ""
-  exit $1;
-}
-
 function log() {
   [ ! -z ${OPT_VERBOSE} ] && echo $@
 }
@@ -81,6 +36,9 @@ do
   shift
 done
 
+##
+# Ensure dependence
+##
 if [ ! -z ${OPT_DEP} ] ; then
   echoerr "Installing all dep vendors"
   pushd ${ROOT_DIR} > /dev/null
@@ -88,6 +46,12 @@ if [ ! -z ${OPT_DEP} ] ; then
   popd > /dev/null
 fi
 
+##
+# Compiling protobufs in:
+# - Go (for the server)
+# - Js (for the client)
+# - Js (for the grpc-web)
+##
 if [ ! -z ${OPT_PROTO} ] ; then
   echoerr "Compilling proto files"
   pushd ${ROOT_DIR} > /dev/null

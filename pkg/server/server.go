@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/quentinbrosse/unik/protobufs"
 	"google.golang.org/grpc"
 )
 
