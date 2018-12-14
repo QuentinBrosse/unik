@@ -32,6 +32,7 @@ do
     -v|--verbose) OPT_VERBOSE="-v" ;;
     -a|--all)
       OPT_DEP=1
+      OPT_PROTO=1
   esac
   shift
 done
