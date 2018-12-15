@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/quentinbrosse/unik/pkg/std/tls"
-	"github.com/quentinbrosse/unik/protobufs"
+	"github.com/quentinbrosse/scwgame/pkg/std/tls"
+	"github.com/quentinbrosse/scwgame/protobufs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

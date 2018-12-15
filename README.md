@@ -1,5 +1,4 @@
-# unik
-The unique link
+# scwgame
 
 ## Run
 

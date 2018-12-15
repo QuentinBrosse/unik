@@ -5,7 +5,7 @@ import (
 	"net"
 	"os"
 
-	"github.com/quentinbrosse/unik/pkg/api"
+	"github.com/quentinbrosse/scwgame/pkg/api"
 )
 
 const serviceHost = "0.0.0.0"

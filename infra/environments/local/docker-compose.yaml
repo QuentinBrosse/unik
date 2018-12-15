@@ -24,8 +24,8 @@ services:
       - SSL_CERT=/data/certifs/local/localhost.crt
       - SSL_KEY=/data/certifs/local/localhost.key
     volumes:
-      - ../../../pkg:/go/src/github.com/quentinbrosse/unik/pkg
-      - ../../../vendor:/go/src/github.com/quentinbrosse/unik/vendor
+      - ../../../pkg:/go/src/github.com/quentinbrosse/scwgame/pkg
+      - ../../../vendor:/go/src/github.com/quentinbrosse/scwgame/vendor
 
 networks:
   api-net:

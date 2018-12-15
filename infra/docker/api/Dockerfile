@@ -4,7 +4,7 @@ FROM golang:1.11-stretch
 RUN curl -fsSL -o /usr/local/bin/dep https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64         && \
     chmod +x /usr/local/bin/dep
 
-WORKDIR /go/src/github.com/quentinbrosse/unik
+WORKDIR /go/src/github.com/quentinbrosse/scwgame
 
 RUN go get github.com/pilu/fresh
 

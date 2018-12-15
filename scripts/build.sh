@@ -14,4 +14,4 @@ then
 fi
 
 echoerr "Building package $1"
-go install -ldflags '-extldflags "-static"' "github.com/quentinbrosse/unik/pkg/cmd/$1"
+go install -ldflags '-extldflags "-static"' "github.com/quentinbrosse/scwgame/pkg/cmd/$1"

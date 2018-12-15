@@ -1,7 +1,7 @@
 {
-  "name": "unik",
+  "name": "scwgame",
   "version": "0.1.0",
-  "description": "Unik webapp",
+  "description": "Scwgame",
   "devDependencies": {
     "@grpc/proto-loader": "^0.3.0",
     "async": "^1.5.2",
