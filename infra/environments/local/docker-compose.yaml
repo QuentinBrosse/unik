@@ -6,24 +6,26 @@ services:
       context: ../../../
       dockerfile: ./infra/docker/envoy/Dockerfile
     ports:
-      - "8010:8010"
-      - "8011:8011"
+      - "443:443"
+      - "8000:8000"
     networks:
-      - server-net
-  server:
+      - api-net
+  api:
     build:
       context: ../../../
-      dockerfile: ./infra/docker/server/Dockerfile
-    command: server
+      dockerfile: ./infra/docker/api/Dockerfile
+    command: api
     ports:
       - "8020:8020"
     networks:
-      - server-net
+      - api-net
     environment:
       - APP_ENV=development
+      - SSL_CERT=/data/certifs/local/localhost.crt
+      - SSL_KEY=/data/certifs/local/localhost.key
     volumes:
       - ../../../pkg:/go/src/github.com/quentinbrosse/unik/pkg
       - ../../../vendor:/go/src/github.com/quentinbrosse/unik/vendor
 
 networks:
-  server-net:
+  api-net:

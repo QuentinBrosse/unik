@@ -1,10 +1,10 @@
 const { HelloRequest } = require('./protobufs/api_pb.js');
 const { ApiPromiseClient } = require('./protobufs/api_grpc_web_pb.js');
 
-const client = new ApiPromiseClient('http://localhost:8010', null, null);
+const client = new ApiPromiseClient('https://localhost', null, null);
 
 const request = new HelloRequest();
-request.setName('toi');
+request.setName('you');
 
 client.sayHello(request, {})
     .then(response => {

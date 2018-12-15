@@ -8,7 +8,7 @@ WORKDIR /go/src/github.com/quentinbrosse/unik
 
 RUN go get github.com/pilu/fresh
 
-COPY ./infra/docker/server/entrypoint.sh .
+COPY ./infra/docker/api/entrypoint.sh .
 
 ARG app_env
 ENV APP_ENV $app_env
@@ -19,10 +19,12 @@ COPY ./scripts/utils.sh ./scripts/build.sh ./scripts/configure.sh ./scripts/
 COPY ./Gopkg.lock ./Gopkg.toml ./
 RUN ./scripts/configure.sh --dep --verbose
 
-COPY ./protobufs ./protobufs/
-COPY ./pkg/server ./pkg/server/
-COPY ./pkg/cmd/server ./pkg/cmd/server/
+COPY ./infra/data/ /data/
+COPY ./protobufs/ ./protobufs/
+COPY ./pkg/api/ ./pkg/api/
+COPY ./pkg/cmd/api/ ./pkg/cmd/api/
+COPY ./pkg/std/ ./pkg/std/
 
-RUN ./scripts/build.sh server
+RUN ./scripts/build.sh api
 
 ENTRYPOINT ["./entrypoint.sh"]
