@@ -4,11 +4,11 @@ set -e
 echo "Run in $APP_ENV env"
 
 if [ "$APP_ENV" = "production" ]; then
-  auth $@
+  api $@
 fi
 
-if [ "$1" = 'auth' ]; then
-  cd ./pkg/cmd/auth && fresh
+if [ "$1" = 'api' ]; then
+  cd ./pkg/cmd/api && fresh
 fi
 
 exec $@

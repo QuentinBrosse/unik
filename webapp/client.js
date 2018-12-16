@@ -1,12 +1,28 @@
-const { HelloRequest } = require('./protobufs/api_pb.js');
-const { ApiPromiseClient } = require('./protobufs/api_grpc_web_pb.js');
+const { HelloRequest } = require('./protobufs/api/api_pb.js');
+const { SignUpRequest } = require('./protobufs/auth/auth_pb.js');
+const { PublicApiPromiseClient: ApiPublicApiPromiseClient } = require('./protobufs/api/api_grpc_web_pb.js');
+const { PublicApiPromiseClient: AuthPublicApiPromiseClient } = require('./protobufs/auth/auth_grpc_web_pb.js');
 
-const client = new ApiPromiseClient('https://localhost', null, null);
 
-const request = new HelloRequest();
-request.setName('you');
+const apiClient = new ApiPublicApiPromiseClient('https://localhost', null, null);
 
-client.sayHello(request, {})
+const apiRequest = new HelloRequest();
+apiRequest.setName('you');
+
+apiClient.sayHello(apiRequest, {})
+    .then(response => {
+        console.log(response.getMessage());
+    })
+    .catch(console.error);
+
+const authClient = new AuthPublicApiPromiseClient('https://localhost', null, null);
+
+const authRequest = new SignUpRequest();
+authRequest.setEmail('qb8@gmail.com')
+authRequest.setPassword('pass')
+authRequest.setUsername('bross');
+
+authClient.signUp(authRequest, {})
     .then(response => {
         console.log(response.getMessage());
     })

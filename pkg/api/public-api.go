@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 
-	"github.com/quentinbrosse/scwgame/protobufs"
+	"github.com/quentinbrosse/scwgame/protobufs/api"
 )
 
 type apiServer struct {

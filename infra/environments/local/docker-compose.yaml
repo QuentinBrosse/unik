@@ -10,6 +10,24 @@ services:
       - "8000:8000"
     networks:
       - api-net
+
+  auth:
+    build:
+      context: ../../../
+      dockerfile: ./infra/docker/auth/Dockerfile
+    command: auth
+    ports:
+    - "8010:8010"
+    networks:
+    - api-net
+    environment:
+    - APP_ENV=development
+    - SSL_CERT=/data/certifs/local/auth.crt
+    - SSL_KEY=/data/certifs/local/auth.key
+    volumes:
+    - ../../../pkg:/go/src/github.com/quentinbrosse/scwgame/pkg
+    - ../../../vendor:/go/src/github.com/quentinbrosse/scwgame/vendor
+
   api:
     build:
       context: ../../../
@@ -26,6 +44,15 @@ services:
     volumes:
       - ../../../pkg:/go/src/github.com/quentinbrosse/scwgame/pkg
       - ../../../vendor:/go/src/github.com/quentinbrosse/scwgame/vendor
+
+#  database:
+#    image: mysql:8
+#    command: --default-authentication-plugin=mysql_native_password
+#    environment:
+#      MYSQL_DATABASE: scwgame
+#      MYSQL_ONETIME_PASSWORD: true
+#      MYSQL_USER: scwgame
+#      MYSQL_PASSWORD: scwgame
 
 networks:
   api-net:

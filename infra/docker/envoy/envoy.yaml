@@ -3,6 +3,7 @@ admin:
   address:
     socket_address: { address: 0.0.0.0, port_value: 8000 }
 
+
 static_resources:
   listeners:
     - name: listener_0
@@ -21,9 +22,14 @@ static_resources:
                     domains: ["*"]
                     routes:
                       - match:
-                          prefix: "/api.Api"
+                          prefix: "/auth.PublicApi"
                         route:
-                          cluster: greeter_service
+                          cluster: auth_service
+                          max_grpc_timeout: 15.0s
+                      - match:
+                          prefix: "/api.PublicApi"
+                        route:
+                          cluster: api_service
                           max_grpc_timeout: 15.0s
                     cors:
                       allow_origin:
@@ -47,23 +53,45 @@ static_resources:
             validation_context:
               trusted_ca:
                 filename: /etc/envoy/data/certifs/local/ca.pem
+
+
   clusters:
-    - name: greeter_service
+    - name: auth_service
       connect_timeout: 15.0s
       type: LOGICAL_DNS
       http2_protocol_options: {}
       lb_policy: round_robin
       hosts:
-        - socket_address: { address: api, port_value: 8020 }
+      - socket_address: { address: auth, port_value: 8010 }
       tls_context:
         common_tls_context:
           alpn_protocols:
-            - h2
+          - h2
           tls_certificates:
-            - certificate_chain:
-                filename: /etc/envoy/data/certifs/local/localhost.crt
-              private_key:
-                filename: /etc/envoy/data/certifs/local/localhost.key
+          - certificate_chain:
+              filename: /etc/envoy/data/certifs/local/auth.crt
+            private_key:
+              filename: /etc/envoy/data/certifs/local/auth.key
+          validation_context:
+            trusted_ca:
+              filename: /etc/envoy/data/certifs/local/ca.pem
+
+    - name: api_service
+      connect_timeout: 15.0s
+      type: LOGICAL_DNS
+      http2_protocol_options: {}
+      lb_policy: round_robin
+      hosts:
+      - socket_address: { address: api, port_value: 8020 }
+      tls_context:
+        common_tls_context:
+          alpn_protocols:
+          - h2
+          tls_certificates:
+          - certificate_chain:
+              filename: /etc/envoy/data/certifs/local/localhost.crt
+            private_key:
+              filename: /etc/envoy/data/certifs/local/localhost.key
           validation_context:
             trusted_ca:
               filename: /etc/envoy/data/certifs/local/ca.pem

@@ -57,11 +57,16 @@ if [ ! -z ${OPT_PROTO} ] ; then
   echoerr "Compilling proto files"
   pushd ${ROOT_DIR} > /dev/null
     mkdir -p ${WEBAPP_PB_DIR}
-    protoc \
-      -I ${PB_DIR} \
-      --go_out=plugins=grpc:${PB_DIR} \
-      --js_out=import_style=commonjs:${WEBAPP_PB_DIR} \
-      --grpc-web_out=import_style=commonjs,mode=grpcwebtext:${WEBAPP_PB_DIR} \
-      ${PB_DIR}/api.proto
+
+    for dir in $(find ${PB_DIR} -name "*.proto" | xargs -n1 dirname  | uniq);
+    do
+      log "  " ${dir}/*.proto
+      protoc \
+        -I ${PB_DIR} \
+        --go_out=plugins=grpc:${PB_DIR} \
+        --js_out=import_style=commonjs:${WEBAPP_PB_DIR} \
+        --grpc-web_out=import_style=commonjs,mode=grpcwebtext:${WEBAPP_PB_DIR} \
+        ${dir}/*.proto
+    done
   popd > /dev/null
 fi
