@@ -1,8 +1,8 @@
-package auth
+package account
 
 import (
 	"github.com/quentinbrosse/scwgame/pkg/std/tls"
-	"github.com/quentinbrosse/scwgame/protobufs/auth"
+	"github.com/quentinbrosse/scwgame/protobufs/account"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
@@ -20,6 +20,6 @@ func NewPublicApiServer(config *ServerConfig) *grpc.Server {
 	}
 
 	server := grpc.NewServer(opts...)
-	auth.RegisterPublicApiServer(server, &apiServer{})
+	account.RegisterPublicApiServer(server, &apiServer{})
 	return server
 }

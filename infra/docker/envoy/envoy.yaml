@@ -22,9 +22,9 @@ static_resources:
                     domains: ["*"]
                     routes:
                       - match:
-                          prefix: "/auth.PublicApi"
+                          prefix: "/account.PublicApi"
                         route:
-                          cluster: auth_service
+                          cluster: account_service
                           max_grpc_timeout: 15.0s
                       - match:
                           prefix: "/api.PublicApi"
@@ -56,22 +56,22 @@ static_resources:
 
 
   clusters:
-    - name: auth_service
+    - name: account_service
       connect_timeout: 15.0s
       type: LOGICAL_DNS
       http2_protocol_options: {}
       lb_policy: round_robin
       hosts:
-      - socket_address: { address: auth, port_value: 8010 }
+      - socket_address: { address: account, port_value: 8010 }
       tls_context:
         common_tls_context:
           alpn_protocols:
           - h2
           tls_certificates:
           - certificate_chain:
-              filename: /etc/envoy/data/certifs/local/auth.crt
+              filename: /etc/envoy/data/certifs/local/account.crt
             private_key:
-              filename: /etc/envoy/data/certifs/local/auth.key
+              filename: /etc/envoy/data/certifs/local/account.key
           validation_context:
             trusted_ca:
               filename: /etc/envoy/data/certifs/local/ca.pem

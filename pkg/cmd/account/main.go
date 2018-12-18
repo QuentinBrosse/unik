@@ -5,7 +5,7 @@ import (
 	"net"
 	"os"
 
-	"github.com/quentinbrosse/scwgame/pkg/auth"
+	"github.com/quentinbrosse/scwgame/pkg/account"
 )
 
 const serviceHost = "0.0.0.0"
@@ -20,12 +20,12 @@ func main() {
 		log.Fatalf("failed to listen: %v", lisErr)
 	}
 
-	config := &auth.ServerConfig{
+	config := &account.ServerConfig{
 		SslCert: os.Getenv("SSL_CERT"),
 		SslKey:  os.Getenv("SSL_KEY"),
 	}
 
-	server := auth.NewPublicApiServer(config)
+	server := account.NewPublicApiServer(config)
 	serverErr := server.Serve(lis)
 	if serverErr != nil {
 		log.Fatal(serverErr)

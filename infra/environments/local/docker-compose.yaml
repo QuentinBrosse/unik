@@ -11,19 +11,19 @@ services:
     networks:
       - api-net
 
-  auth:
+  account:
     build:
       context: ../../../
-      dockerfile: ./infra/docker/auth/Dockerfile
-    command: auth
+      dockerfile: ./infra/docker/account/Dockerfile
+    command: account
     ports:
     - "8010:8010"
     networks:
     - api-net
     environment:
     - APP_ENV=development
-    - SSL_CERT=/data/certifs/local/auth.crt
-    - SSL_KEY=/data/certifs/local/auth.key
+    - SSL_CERT=/data/certifs/local/account.crt
+    - SSL_KEY=/data/certifs/local/account.key
     volumes:
     - ../../../pkg:/go/src/github.com/quentinbrosse/scwgame/pkg
     - ../../../vendor:/go/src/github.com/quentinbrosse/scwgame/vendor

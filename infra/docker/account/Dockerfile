@@ -27,7 +27,7 @@ WORKDIR /go/src/github.com/quentinbrosse/scwgame
 
 RUN go get github.com/pilu/fresh
 
-COPY ./infra/docker/auth/entrypoint.sh .
+COPY ./infra/docker/account/entrypoint.sh .
 
 ARG app_env
 ENV APP_ENV $app_env
@@ -41,13 +41,13 @@ COPY ./Gopkg.lock ./Gopkg.toml ./
 RUN ./scripts/configure.sh --dep --verbose
 
 # Configure protobufs
-COPY ./protobufs/auth ./protobufs/auth
+COPY ./protobufs/account ./protobufs/account
 RUN ./scripts/configure.sh --proto --verbose
 
-COPY ./pkg/auth/ ./pkg/auth/
-COPY ./pkg/cmd/auth/ ./pkg/cmd/auth/
+COPY ./pkg/account/ ./pkg/account/
+COPY ./pkg/cmd/account/ ./pkg/cmd/account/
 COPY ./pkg/std/ ./pkg/std/
 
-RUN ./scripts/build.sh auth
+RUN ./scripts/build.sh account
 
 ENTRYPOINT ["./entrypoint.sh"]
