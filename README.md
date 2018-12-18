@@ -12,7 +12,7 @@
 1. Clone this repo in your `GOPATH` and `cd` in the repo
 1. Configure the project: `./scripts/configure.sh -a -v`
 1. Add CA to MacOS Keychain: `open ./infra/data/certifs/local/ca.pem` and trust it:
-   1. In Keychain, go into the Certificates section and locate the certificate you just added
+   1. In Keychain, go into the Certificates section and locate the certificate "Quentin Brosse"
    1. Double click on it, enter the trust section and under “When using this certificate” select “Always Trust”
 1. Run the infra: `cd infra/environments/local && docker-compose build && docker-compose up -d`
 1. In another terminal, run local webserver: `cd webapp/ && yarn install && yarn start`
