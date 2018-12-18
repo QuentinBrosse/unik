@@ -3,7 +3,7 @@
 ## Start
 
 1. [Install golang](https://golang.org/doc/install)
-1. [Install GRPC and protoc-gen-go](https://grpc.io/docs/quickstart/go.html#install-grpc)
+1. [Install GRPC and protoc-gen-go](https://grpc.io/docs/quickstart/go.html#install-grpc): `brew install protobuf`
 1. [Install protoc-gen-grpc-web](https://github.com/grpc/grpc-web#code-generator-plugin)
 1. Clone this repo in your `GOPATH` and `cd` in the repo
 1. Configure the project: `./scripts/configure.sh -a -v`
