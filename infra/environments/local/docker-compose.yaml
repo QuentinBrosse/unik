@@ -9,50 +9,38 @@ services:
       - "443:443"
       - "8000:8000"
     networks:
-      - api-net
+      - scwgame-net
 
   account:
     build:
       context: ../../../
       dockerfile: ./infra/docker/account/Dockerfile
     command: account
-    ports:
-    - "8010:8010"
     networks:
-    - api-net
+      - scwgame-net
     environment:
-    - APP_ENV=development
-    - SSL_CERT=/data/certifs/local/account.crt
-    - SSL_KEY=/data/certifs/local/account.key
-    volumes:
-    - ../../../pkg:/go/src/github.com/quentinbrosse/scwgame/pkg
-    - ../../../vendor:/go/src/github.com/quentinbrosse/scwgame/vendor
-
-  api:
-    build:
-      context: ../../../
-      dockerfile: ./infra/docker/api/Dockerfile
-    command: api
-    ports:
-      - "8020:8020"
-    networks:
-      - api-net
-    environment:
-      - APP_ENV=development
-      - SSL_CERT=/data/certifs/local/localhost.crt
-      - SSL_KEY=/data/certifs/local/localhost.key
+      APP_ENV: ${APP_ENV}
+      SSL_CERT: /data/certifs/local/account.crt
+      SSL_KEY: /data/certifs/local/account.key
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_HOST: database
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - ../../../pkg:/go/src/github.com/quentinbrosse/scwgame/pkg
       - ../../../vendor:/go/src/github.com/quentinbrosse/scwgame/vendor
 
-#  database:
-#    image: mysql:8
-#    command: --default-authentication-plugin=mysql_native_password
-#    environment:
-#      MYSQL_DATABASE: scwgame
-#      MYSQL_ONETIME_PASSWORD: true
-#      MYSQL_USER: scwgame
-#      MYSQL_PASSWORD: scwgame
+  database:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - scwgame-net
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_ONETIME_PASSWORD: "true"
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
 
 networks:
-  api-net:
+  scwgame-net:
