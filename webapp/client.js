@@ -1,15 +1,17 @@
 const { SignUpRequest } = require('./protobufs/account/account_pb.js');
-const { PublicApiPromiseClient: AccountPublicApiPromiseClient } = require('./protobufs/account/account_grpc_web_pb.js');
+const { PublicApiClient } = require('./protobufs/account/account_grpc_web_pb.js');
 
-const accountClient = new AccountPublicApiPromiseClient('https://localhost', null, null);
+const accountClient = new PublicApiClient('https://localhost', null, null);
 
 const accountRequest = new SignUpRequest();
-accountRequest.setEmail('qb8@gmail.com');
-accountRequest.setPassword('pass');
-accountRequest.setUsername('bross');
 
-accountClient.signUp(accountRequest, {})
-    .then(response => {
-        console.log(response.getMessage());
-    })
-    .catch(console.error);
+const email = prompt("What is your email dude?");
+const username = prompt("What is your username dude?");
+
+accountRequest.setEmail(email);
+accountRequest.setPassword('pass');
+accountRequest.setUsername(username);
+
+const signUpCall = accountClient.signUp(accountRequest, {}, console.log);
+
+signUpCall.on('status', console.log('status', status));

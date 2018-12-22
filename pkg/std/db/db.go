@@ -1,4 +1,4 @@
-package database
+package db
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/quentinbrosse/scwgame/pkg/std/env"
 )
 
 var db *gorm.DB
@@ -17,12 +18,17 @@ func init() {
 	user := os.Getenv("DATABASE_USER")
 	password := os.Getenv("DATABASE_PASSWORD")
 
-	dbUri := fmt.Sprintf("%s:%s@%s/%s?charset=utf8mb4&parseTime=True&loc=Local", user, password, host, name)
+	dbUri := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, password, host, name)
+	log.Println(dbUri)
 	conn, err := gorm.Open("mysql", dbUri)
 	if err != nil {
 		log.Fatalf("cannot open mysql connection: %s", err)
 	}
-	defer conn.Close()
+	// defer conn.Close()
+
+	if !env.InProductionEnv() {
+		conn.Debug()
+	}
 
 	db = conn
 }

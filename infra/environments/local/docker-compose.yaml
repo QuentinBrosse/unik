@@ -26,6 +26,7 @@ services:
       DATABASE_HOST: database
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
     volumes:
       - ../../../pkg:/go/src/github.com/quentinbrosse/scwgame/pkg
       - ../../../vendor:/go/src/github.com/quentinbrosse/scwgame/vendor
@@ -35,6 +36,8 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     networks:
       - scwgame-net
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_RANDOM_ROOT_PASSWORD: "true"

@@ -19,17 +19,16 @@ message SignInRequest {
 }
 
 message SignUpResponse {
-    User user = 1;
-    string Message = 2;
+    Account account = 1;
 }
 
 message SignInResponse {
-    User user = 1;
-    string Message = 2;
+    Account account = 1;
 }
 
-message User {
-    string id = 1;
+message Account {
+    uint32 id = 1;
     string email = 2;
     string username = 3;
+    string token = 4;
 }
