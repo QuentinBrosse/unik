@@ -18,6 +18,8 @@ services:
     command: account
     networks:
       - scwgame-net
+    depends_on:
+      - database
     environment:
       APP_ENV: ${APP_ENV}
       SSL_CERT: /data/certifs/local/account.crt

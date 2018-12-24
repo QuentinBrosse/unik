@@ -22,7 +22,7 @@ func init() {
 	log.Println(dbUri)
 	conn, err := gorm.Open("mysql", dbUri)
 	if err != nil {
-		log.Fatalf("cannot open mysql connection: %s", err)
+		log.Fatalf("fatal: cannot open mysql connection (%s)", err)
 	}
 	// defer conn.Close()
 

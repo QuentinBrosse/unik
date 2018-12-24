@@ -30,7 +30,7 @@ var emailRegex *regexp.Regexp
 
 func init() {
 	db.GetDatabase().AutoMigrate(&Account{})
-	emailRegex = regexp.MustCompile(`[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}`)
+	emailRegex = regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}`)
 }
 
 func (a *Account) Create() error {
@@ -106,8 +106,9 @@ func (a *Account) Validate() error {
 
 func (a *Account) ToPb() *pb.Account {
 	return &pb.Account{
-		Id:    uint32(a.ID),
-		Email: a.Email,
-		Token: a.Token,
+		Id:       uint32(a.ID),
+		Email:    a.Email,
+		Username: a.Username,
+		Token:    a.Token,
 	}
 }

@@ -4,11 +4,25 @@ const fs = require('fs');
 const certifsDir = path.join(__dirname, '../infra/data/certifs/local/');
 
 module.exports = {
-    mode: "development",
-    entry: "./client.js",
+    mode: 'development',
+    entry: {
+        account: './account.js',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: ['babel-loader']
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['*', '.js', '.jsx']
+    },
     devtool: 'inline-source-map',
     output: {
-        filename: 'app.bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     // watch: true,
