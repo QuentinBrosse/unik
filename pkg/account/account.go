@@ -36,7 +36,7 @@ func init() {
 func (a *Account) Create() error {
 	database := db.GetDatabase()
 
-	err := a.Validate()
+	err := a.ValidateCreation()
 	if err != nil {
 		return err
 	}
@@ -48,16 +48,15 @@ func (a *Account) Create() error {
 
 	a.Password = string(hashedPass)
 
-	var count int
+	existingAccount := &Account{}
 	err = database.
-		Model(&Account{}).
 		Where("email = ?", a.Email).Or("username = ?", a.Username).
-		Count(&count).Error
-	if err != nil {
+		First(existingAccount).Error
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		log.Printf("error: cannot check user existence (%s)", err)
 		return UnknownError
 	}
-	if count > 0 {
+	if existingAccount.ID > 0 {
 		log.Printf("error: %s", UserAlreadyExists.Error())
 		return UserAlreadyExists
 	}
@@ -80,7 +79,47 @@ func (a *Account) Create() error {
 	return nil
 }
 
-func (a *Account) Validate() error {
+func (a *Account) SignIn() error {
+	database := db.GetDatabase()
+
+	err := a.ValidateSignIn()
+	if err != nil {
+		return err
+	}
+
+	candidate := &Account{}
+	err = database.Debug().
+		Where("email = ?", a.Email).
+		First(candidate).Error
+	if err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			log.Printf("info: %s", InvalidCredentials.Error())
+			return InvalidCredentials
+		}
+		log.Printf("error: cannot check user existence (%s)", err)
+		return UnknownError
+	}
+
+	if !password.CompareHashAndPassword(candidate.Password, a.Password) {
+		log.Printf("info: %s", InvalidCredentials.Error())
+		return InvalidCredentials
+	}
+
+	*a = *candidate
+
+	log.Printf("info: signed in user: #%v %s", a.ID, a.Username)
+
+	jwtToken, err := jwt.NewSigned(a.ID, []string{jwt.AudienceGame})
+	if err != nil {
+		return UnknownError
+	}
+
+	a.Token = jwtToken
+
+	return nil
+}
+
+func (a *Account) ValidateCreation() error {
 	if a.Email == "" {
 		return status.Errorf(codes.InvalidArgument, "missing email")
 	}
@@ -99,6 +138,26 @@ func (a *Account) Validate() error {
 
 	if len(a.Password) < 6 {
 		return status.Errorf(codes.InvalidArgument, "invalid password (len < 6)")
+	}
+
+	return nil
+}
+
+func (a *Account) ValidateSignIn() error {
+	if a.Email == "" {
+		return status.Errorf(codes.InvalidArgument, "missing email")
+	}
+
+	if !emailRegex.MatchString(a.Email) {
+		return status.Errorf(codes.InvalidArgument, "invalid email")
+	}
+
+	if a.Password == "" {
+		return status.Errorf(codes.InvalidArgument, "missing password")
+	}
+
+	if len(a.Password) < 6 {
+		return InvalidCredentials
 	}
 
 	return nil

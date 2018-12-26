@@ -25,7 +25,7 @@ RUN wget https://github.com/grpc/grpc-web/releases/download/1.0.3/protoc-gen-grp
 
 WORKDIR /go/src/github.com/quentinbrosse/scwgame
 
-RUN go get github.com/pilu/fresh
+RUN go get github.com/cespare/reflex
 
 COPY ./infra/docker/account/entrypoint.sh .
 

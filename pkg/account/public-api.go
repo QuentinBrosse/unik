@@ -27,7 +27,19 @@ func (s *apiServer) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Sign
 	return reply, nil
 }
 
-func (s *apiServer) SignIn(ctx context.Context, request *pb.SignInRequest) (*pb.SignInResponse, error) {
-	reply := &pb.SignInResponse{}
+func (s *apiServer) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
+	account := &Account{
+		Email:    req.Email,
+		Password: req.Password,
+	}
+
+	err := account.SignIn()
+	if err != nil {
+		return nil, err
+	}
+
+	reply := &pb.SignInResponse{
+		Account: account.ToPb(),
+	}
 	return reply, nil
 }

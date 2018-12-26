@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { SignUpRequest } from './protobufs/account/account_pb.js';
 import { PublicApiClient } from './protobufs/account/account_grpc_web_pb.js';
-// const { SignUpRequest } = require('./protobufs/account/account_pb.js');
-// const { PublicApiClient } = require('./protobufs/account/account_grpc_web_pb.js');
 
 class AccountZone extends React.Component {
     constructor(props) {
