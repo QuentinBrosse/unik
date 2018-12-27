@@ -6,6 +6,7 @@ import (
 )
 
 var (
-	errMissingMetadata = status.Errorf(codes.InvalidArgument, "missing metadata")
-	errInvalidToken    = status.Errorf(codes.Unauthenticated, "invalid token")
+	UnknownError       = status.Errorf(codes.Unknown, "something wrong happen, please try later")
+	UserAlreadyExists  = status.Errorf(codes.AlreadyExists, "this user already exists")
+	InvalidCredentials = status.Errorf(codes.PermissionDenied, "invalid credentials")
 )

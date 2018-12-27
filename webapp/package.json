@@ -2,23 +2,37 @@
   "name": "scwgame",
   "version": "0.1.0",
   "description": "Scwgame",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
     "@grpc/proto-loader": "^0.3.0",
     "async": "^1.5.2",
+    "babel-loader": "^8.0.4",
     "google-protobuf": "^3.6.1",
     "grpc": "^1.15.0",
     "grpc-web": "^1.0.0",
     "lodash": "^4.6.1",
+    "typescript": "^3.2.2",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.10"
   },
   "scripts": {
-    "start": "yarn run webpack-dev-server --open",
+    "start": "yarn run webpack-dev-server --open --mode development",
     "watch": "yarn run webpack --watch",
     "build": "yarn run webpack"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
   "license": "UNLICENSED",
   "private": true
 }
